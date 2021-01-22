@@ -6,8 +6,15 @@ const morgan= require('morgan');
 dotenv.config({path:'./config/config.env'})
 
 const transactions = require('./routes/transactions');
+const connectDB = require('./config/db');
+
+connectDB();
 
 const app =express();
+app.use(express.json());
+if(process.env.NODE_ENV === "development"){
+    app.use(morgan('dev'));
+}
 
 app.use('/api/v1/transactions', transactions);
 
